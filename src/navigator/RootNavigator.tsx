@@ -4,14 +4,20 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation_types';
 import HomeScreen from '../screens/home/Home';
 import BottomTabNavigator from './BottomTabNavigator';
+import LoginScreen from '../screens/authentication/login/LoginScreen';
 
 const RootNavigator = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="HomeTab"
         component={BottomTabNavigator}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
