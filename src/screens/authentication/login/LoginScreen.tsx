@@ -26,6 +26,17 @@ const LoginScreen = () => {
         </TouchableOpacity>
         <CustomSubmitButton />
       </View>
+      <View style={styles.seperatorContainer}>
+        <View style={styles.centeredLine} />
+        <Text>Or</Text>
+        <View style={styles.centeredLine} />
+      </View>
+      <View style={styles.signupContainer}>
+        <Text style={styles.signupTextBefore}>Don't have an account? </Text>
+        <TouchableOpacity>
+          <Text style={styles.signupText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -38,6 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '5%',
+    backgroundColor: colors.white,
   },
   logo: {
     width: 100,
@@ -64,5 +76,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Fonts.Manrope.Regular,
     textAlign: 'right',
+  },
+  seperatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  centeredLine: {
+    height: 1,
+    flex: 1,
+    backgroundColor: colors.secondaryGrey,
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    gap: 3,
+  },
+  signupText: {
+    color: colors.primaryGreen,
+    fontFamily: Fonts.Manrope.Bold,
+    fontSize: 15,
+  },
+  signupTextBefore: {
+    fontSize: 15,
+    color: colors.secondaryGrey,
+    fontFamily: Fonts.Manrope.Regular,
   },
 });
