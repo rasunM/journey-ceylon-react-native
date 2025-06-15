@@ -8,8 +8,10 @@ const CustomTextField = () => {
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.textInputBorder}
+        underlineColorAndroid="transparent"
+        style={styles.textInputBar}
         placeholder="Enter your e-mail"
+        placeholderTextColor={colors.secondaryGrey}
       />
       <CloseButton width={20} height={20} fill={colors.secondaryGrey} />
     </View>
@@ -23,15 +25,16 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.textInputBarColor,
     borderRadius: 30,
     height: 58,
     paddingHorizontal: 15,
-    opacity: 0.65,
+    borderWidth: 1,
+    borderColor: colors.secondaryGrey,
   },
-  textInputBorder: {
+  textInputBar: {
     width: '90%',
-    height: 50,
+    height: '80%',
     fontFamily: Fonts.Manrope.Regular,
+    color: colors.textInputBarFontColor,
   },
 });
