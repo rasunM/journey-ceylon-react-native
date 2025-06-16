@@ -1,5 +1,6 @@
 const colors = {
   primaryGreen: '#0D7B16',
+  lightGreeen: '#ACD391',
   bottomTabBorderColor: '#E9E9E9',
   textInputBarColor: '#AAAAAA',
   textInputBarFontColor: '#919090',
