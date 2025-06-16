@@ -4,8 +4,13 @@ import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
 import CustomSubmitButton from '../../../components/CustomSubmitButton';
+import SocialLoginButton from '../../../components/SocialLoginButton';
+import {RootStackParamList} from '../../../types/navigation_types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-const LoginScreen = () => {
+type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
+
+const LoginScreen = ({navigation}: LoginScreenProps) => {
   return (
     <View style={styles.container}>
       <Image
@@ -24,16 +29,22 @@ const LoginScreen = () => {
         <TouchableOpacity>
           <Text style={styles.forgotPasswordText}>Forgot Password? </Text>
         </TouchableOpacity>
-        <CustomSubmitButton />
+        <TouchableOpacity onPress={() => navigation.navigate('HomeTab')}>
+          <CustomSubmitButton />
+        </TouchableOpacity>
       </View>
       <View style={styles.seperatorContainer}>
         <View style={styles.centeredLine} />
-        <Text>Or</Text>
+        <Text style={styles.seperatorText}>Or</Text>
         <View style={styles.centeredLine} />
+      </View>
+      <View style={styles.socialLoginContainer}>
+        <SocialLoginButton logo="facebook" text="Facebook" />
+        <SocialLoginButton logo="google" text="Google" />
       </View>
       <View style={styles.signupContainer}>
         <Text style={styles.signupTextBefore}>Don't have an account? </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.signupText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -76,15 +87,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Fonts.Manrope.Regular,
     textAlign: 'right',
+    marginBottom: 5,
   },
   seperatorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  seperatorText: {
+    color: colors.secondaryGrey,
+    fontSize: 15,
+    fontFamily: Fonts.Manrope.Regular,
   },
   centeredLine: {
     height: 1,
     flex: 1,
+    opacity: 0.5,
     backgroundColor: colors.secondaryGrey,
   },
   signupContainer: {
@@ -100,5 +120,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.secondaryGrey,
     fontFamily: Fonts.Manrope.Regular,
+  },
+  socialLoginContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    marginBottom: 30,
+    gap: 10,
   },
 });

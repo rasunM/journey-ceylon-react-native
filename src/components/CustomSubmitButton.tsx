@@ -1,17 +1,13 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import colors from '../constants/colors';
 import {Fonts} from '../constants/fonts';
 
-type Props = {};
-
-const CustomSubmitButton = (props: Props) => {
+const CustomSubmitButton = () => {
   return (
-    <TouchableOpacity>
-      <View style={styles.container}>
-        <Text style={styles.text}>Log in</Text>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <Text style={styles.text}>Log in</Text>
+    </View>
   );
 };
 
