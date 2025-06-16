@@ -4,13 +4,17 @@ import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
 import CustomSubmitButton from '../../../components/CustomSubmitButton';
-
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import SocialLoginButton from '../../../components/SocialLoginButton';
 import {RootStackParamList} from '../../../types/navigation_types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import DigitInputBox from '../../../components/DigitInputBox';
 
-type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+type LoginScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'VerifyEmail'
+>;
 
-const SignUpScreen = ({navigation}: SignUpScreenProps) => {
+const VerifyEmail = ({navigation}: LoginScreenProps) => {
   return (
     <View style={styles.container}>
       <Image
@@ -18,32 +22,37 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
         style={styles.logo}
       />
       <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>Create Your Account</Text>
+        <Text style={styles.headingText}>Verify Your Email</Text>
         <Text style={styles.subHeadingText}>
-          Start your journey across Sri Lanka with a personalized travel
-          experience.
+          We’ve sent a 4-digit code to your email.
+        </Text>
+        <Text style={styles.subHeadingText}>
+          Enter the code below to confirm your email and continue.
         </Text>
       </View>
       <View style={styles.formContainer}>
-        <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
-        <TouchableOpacity onPress={() => navigation.navigate('VerifyEmail')}>
-          <CustomSubmitButton text="Sign Up" />
+        <View style={styles.digitContainer}>
+          <DigitInputBox />
+          <DigitInputBox />
+          <DigitInputBox />
+          <DigitInputBox />
+        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SetUpNewPassword')}>
+          <CustomSubmitButton text="Verify Now" />
         </TouchableOpacity>
       </View>
       <View style={styles.signupContainer}>
-        <Text style={styles.signupTextBefore}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.signupText}>Log in</Text>
+        <Text style={styles.signupTextBefore}>Didn’t receive it?</Text>
+        <TouchableOpacity>
+          <Text style={styles.signupText}>Resend Code</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default SignUpScreen;
+export default VerifyEmail;
 
 const styles = StyleSheet.create({
   container: {
@@ -69,16 +78,22 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Fonts.Manrope.Regular,
     textAlign: 'center',
+    marginBottom: 10,
   },
   formContainer: {
     marginVertical: 20,
     gap: 20,
   },
-
+  digitContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    marginBottom: 15,
+  },
   signupContainer: {
     flexDirection: 'row',
     gap: 3,
-    alignItems: 'center',
+    marginTop: 25,
   },
   signupText: {
     color: colors.primaryGreen,

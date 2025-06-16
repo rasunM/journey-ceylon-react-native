@@ -2,6 +2,10 @@ export type RootStackParamList = {
   HomeTab: undefined;
   Login: undefined;
   SignUp: undefined;
+  ForgotPassword: undefined;
+  VerifyEmail: undefined;
+  SetUpNewPassword: undefined;
+  ResetSuccessfull: undefined;
 };
 
 export type BottomTabParamList = {
