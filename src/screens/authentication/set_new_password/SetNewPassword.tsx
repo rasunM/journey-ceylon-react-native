@@ -4,13 +4,16 @@ import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
 import CustomSubmitButton from '../../../components/CustomSubmitButton';
-
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import SocialLoginButton from '../../../components/SocialLoginButton';
 import {RootStackParamList} from '../../../types/navigation_types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+type LoginScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'SetUpNewPassword'
+>;
 
-const SignUpScreen = ({navigation}: SignUpScreenProps) => {
+const SetupNewPassword = ({navigation}: LoginScreenProps) => {
   return (
     <View style={styles.container}>
       <Image
@@ -18,32 +21,24 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
         style={styles.logo}
       />
       <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>Create Your Account</Text>
+        <Text style={styles.headingText}>Forgot password?</Text>
         <Text style={styles.subHeadingText}>
-          Start your journey across Sri Lanka with a personalized travel
-          experience.
+          Create a strong password to secure your account.
         </Text>
       </View>
       <View style={styles.formContainer}>
         <CustomTextField />
         <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
-        <TouchableOpacity onPress={() => navigation.navigate('VerifyEmail')}>
-          <CustomSubmitButton text="Sign Up" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupTextBefore}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.signupText}>Log in</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ResetSuccessfull')}>
+          <CustomSubmitButton text="Reset Password" />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default SignUpScreen;
+export default SetupNewPassword;
 
 const styles = StyleSheet.create({
   container: {
@@ -72,22 +67,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginVertical: 20,
-    gap: 20,
-  },
-
-  signupContainer: {
-    flexDirection: 'row',
-    gap: 3,
-    alignItems: 'center',
-  },
-  signupText: {
-    color: colors.primaryGreen,
-    fontFamily: Fonts.Manrope.Bold,
-    fontSize: 15,
-  },
-  signupTextBefore: {
-    fontSize: 15,
-    color: colors.secondaryGrey,
-    fontFamily: Fonts.Manrope.Regular,
+    gap: 25,
   },
 });

@@ -3,10 +3,14 @@ import React from 'react';
 import colors from '../constants/colors';
 import {Fonts} from '../constants/fonts';
 
-const CustomSubmitButton = () => {
+type Props = {
+  text: string;
+};
+
+const CustomSubmitButton = ({text}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Log in</Text>
+      <Text style={styles.text}>{text}</Text>
     </View>
   );
 };

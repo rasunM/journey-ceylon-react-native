@@ -4,13 +4,16 @@ import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
 import CustomSubmitButton from '../../../components/CustomSubmitButton';
-
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import SocialLoginButton from '../../../components/SocialLoginButton';
 import {RootStackParamList} from '../../../types/navigation_types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+type LoginScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'ForgotPassword'
+>;
 
-const SignUpScreen = ({navigation}: SignUpScreenProps) => {
+const ForgotPasswordScreen = ({navigation}: LoginScreenProps) => {
   return (
     <View style={styles.container}>
       <Image
@@ -18,32 +21,43 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
         style={styles.logo}
       />
       <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>Create Your Account</Text>
+        <Text style={styles.headingText}>Forgot password?</Text>
         <Text style={styles.subHeadingText}>
-          Start your journey across Sri Lanka with a personalized travel
-          experience.
+          No worries! Let’s help you reset it.
+        </Text>
+        <Text style={styles.subHeadingText}>
+          Enter the email address associated with your account. We’ll send you a
+          OTP code to reset your password.
         </Text>
       </View>
       <View style={styles.formContainer}>
         <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
         <TouchableOpacity onPress={() => navigation.navigate('VerifyEmail')}>
-          <CustomSubmitButton text="Sign Up" />
+          <CustomSubmitButton text="Send" />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.seperatorContainer}>
+        <View style={styles.centeredLine} />
+        <Text style={styles.seperatorText}>Or</Text>
+        <View style={styles.centeredLine} />
+      </View>
+      <View style={styles.signupContainer}>
+        <Text style={styles.signupTextBefore}>Back to </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.signupText}>Log in</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.signupContainer}>
-        <Text style={styles.signupTextBefore}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.signupText}>Log in</Text>
+        <Text style={styles.signupTextBefore}>Don't have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.signupText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default SignUpScreen;
+export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -69,16 +83,34 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Fonts.Manrope.Regular,
     textAlign: 'center',
+    marginBottom: 10,
   },
   formContainer: {
     marginVertical: 20,
-    gap: 20,
+    gap: 30,
   },
-
+  seperatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginTop: 15,
+    marginBottom: 25,
+  },
+  seperatorText: {
+    color: colors.secondaryGrey,
+    fontSize: 15,
+    fontFamily: Fonts.Manrope.Regular,
+  },
+  centeredLine: {
+    height: 1,
+    flex: 1,
+    opacity: 0.5,
+    backgroundColor: colors.secondaryGrey,
+  },
   signupContainer: {
     flexDirection: 'row',
     gap: 3,
-    alignItems: 'center',
+    marginBottom: 20,
   },
   signupText: {
     color: colors.primaryGreen,

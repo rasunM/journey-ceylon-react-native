@@ -26,11 +26,11 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
       <View style={styles.formContainer}>
         <CustomTextField />
         <CustomTextField />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
           <Text style={styles.forgotPasswordText}>Forgot Password? </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('HomeTab')}>
-          <CustomSubmitButton />
+          <CustomSubmitButton text='Log in'/>
         </TouchableOpacity>
       </View>
       <View style={styles.seperatorContainer}>
