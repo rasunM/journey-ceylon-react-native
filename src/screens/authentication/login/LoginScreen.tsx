@@ -15,6 +15,8 @@ import CustomSubmitButton from '../../../components/CustomSubmitButton';
 import SocialLoginButton from '../../../components/SocialLoginButton';
 import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Formik} from 'formik';
+import {LoginSchema} from '../../../utils/validation/authValidation';
 
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -24,63 +26,87 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
   const [focusField, setFocusField] = useState<string | null>(null);
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../../assets/png/logo.png')}
-        style={styles.logo}
-      />
-      <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>Welcome Back!</Text>
-        <Text style={styles.subHeadingText}>
-          Log in to continue your Sri Lankan adventure.
-        </Text>
-      </View>
-      <View style={styles.formContainer}>
-        <CustomTextField
-          placeholder="Enter your e-mail"
-          onChangeText={setEmail}
-          text={email}
-          onFocus={() => setFocusField('email')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'email'}
-        />
-        <CustomTextField
-          placeholder="Enter password"
-          onChangeText={setPassword}
-          text={password}
-          secureTextEntry
-          onFocus={() => setFocusField('password')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'password'}
-        />
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-          <Text style={styles.forgotPasswordText}>Forgot Password? </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('HomeTab')}
-          disabled={true}>
-          <CustomSubmitButton text="Log in" loading={true} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.seperatorContainer}>
-        <View style={styles.centeredLine} />
-        <Text style={styles.seperatorText}>Or</Text>
-        <View style={styles.centeredLine} />
-      </View>
-      <View style={styles.socialLoginContainer}>
-        <SocialLoginButton logo="facebook" text="Facebook" />
-        <SocialLoginButton logo="google" text="Google" />
-      </View>
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupTextBefore}>Don't have an account? </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('SignUp');
-          }}>
-          <Text style={styles.signupText}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <Formik
+      initialValues={{
+        email: '',
+        password: '',
+      }}
+      validationSchema={LoginSchema}
+      onSubmit={values => {
+        console.log(values);
+        navigation.navigate('HomeTab');
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
+        <View style={styles.container}>
+          <Image
+            source={require('../../../assets/png/logo.png')}
+            style={styles.logo}
+          />
+          <View style={styles.headingContainer}>
+            <Text style={styles.headingText}>Welcome Back!</Text>
+            <Text style={styles.subHeadingText}>
+              Log in to continue your Sri Lankan adventure.
+            </Text>
+          </View>
+          <View style={styles.formContainer}>
+            <CustomTextField
+              placeholder="Enter your e-mail"
+              text={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={() => {
+                handleBlur('email');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('email')}
+              isFocused={focusField === 'email'}
+            />
+            {touched.email && errors.email && (
+              <Text style={styles.error}>{errors.email}</Text>
+            )}
+            <CustomTextField
+              placeholder="Enter password"
+              text={values.password}
+              onChangeText={handleChange('password')}
+              secureTextEntry
+              onBlur={() => {
+                handleBlur('password');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('password')}
+              isFocused={focusField === 'password'}
+            />
+            {touched.password && errors.password && (
+              <Text style={styles.error}>{errors.password}</Text>
+            )}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={styles.forgotPasswordText}>Forgot Password? </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleSubmit()}>
+              <CustomSubmitButton text="Log in" loading={false} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.seperatorContainer}>
+            <View style={styles.centeredLine} />
+            <Text style={styles.seperatorText}>Or</Text>
+            <View style={styles.centeredLine} />
+          </View>
+          <View style={styles.socialLoginContainer}>
+            <SocialLoginButton logo="facebook" text="Facebook" />
+            <SocialLoginButton logo="google" text="Google" />
+          </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupTextBefore}>Don't have an account? </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('SignUp');
+              }}>
+              <Text style={styles.signupText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </Formik>
   );
 };
 
@@ -88,7 +114,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: '25%',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '5%',
@@ -161,5 +187,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 30,
     gap: 10,
+  },
+  error: {
+    color: 'red',
+    marginTop: -15,
+    fontSize: 13,
+    marginBottom: 5,
+    fontFamily: Fonts.Manrope.Regular,
   },
 });
