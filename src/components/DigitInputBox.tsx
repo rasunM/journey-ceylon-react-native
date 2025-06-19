@@ -24,5 +24,6 @@ const styles = StyleSheet.create({
     borderColor: colors.textInputBarColor,
     fontSize: 20,
     color: colors.black,
+    backgroundColor: colors.white,
   },
 });

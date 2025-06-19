@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "685069058754",
+    "project_id": "journey-ceylon",
+    "storage_bucket": "journey-ceylon.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685069058754:android:0ed038e62b0c87aff2f15b",
+        "android_client_info": {
+          "package_name": "com.journeyceylon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqxJKXntSpodmCQGrjFZJKW7PJHQVaRNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

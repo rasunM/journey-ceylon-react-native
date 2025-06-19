@@ -16,7 +16,7 @@ type LoginScreenProps = NativeStackScreenProps<
 const ResetSuccessfull = ({navigation}: LoginScreenProps) => {
   return (
     <View style={styles.container}>
-      <VerifiedIcon width={120} height={120} fill={colors.primaryGreen} />
+      <VerifiedIcon width={150} height={150} fill={colors.primaryGreen} />
       <View style={styles.headingContainer}>
         <Text style={styles.headingText}>Password Reset Successful!</Text>
         <Text style={styles.subHeadingText}>
@@ -27,7 +27,7 @@ const ResetSuccessfull = ({navigation}: LoginScreenProps) => {
       <TouchableOpacity
         onPress={() => navigation.navigate('Login')}
         style={styles.loginButton}>
-        <CustomSubmitButton text="Login" />
+        <CustomSubmitButton text="Login" loading={false} />
       </TouchableOpacity>
     </View>
   );
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '5%',
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   headingContainer: {gap: 10},
   headingText: {

@@ -1,16 +1,21 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import React, {useEffect} from 'react';
 import colors from '../constants/colors';
 import {Fonts} from '../constants/fonts';
 
 type Props = {
   text: string;
+  loading: boolean;
 };
 
-const CustomSubmitButton = ({text}: Props) => {
+const CustomSubmitButton = ({text, loading}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{text}</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color={colors.white} />
+      ) : (
+        <Text style={styles.text}>{text}</Text>
+      )}
     </View>
   );
 };
