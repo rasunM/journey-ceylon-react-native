@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Image, StyleSheet, Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import colors from '../../constants/colors';
 
 const {width} = Dimensions.get('window');
 const SplashScreen = () => {
@@ -29,7 +30,7 @@ const SplashScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFBF4',
+    backgroundColor: colors.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },

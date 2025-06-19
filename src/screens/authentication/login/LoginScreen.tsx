@@ -1,5 +1,13 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useState} from 'react';
 import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
@@ -11,6 +19,10 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({navigation}: LoginScreenProps) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [focusField, setFocusField] = useState<string | null>(null);
+
   return (
     <View style={styles.container}>
       <Image
@@ -24,13 +36,30 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
         </Text>
       </View>
       <View style={styles.formContainer}>
-        <CustomTextField />
-        <CustomTextField />
+        <CustomTextField
+          placeholder="Enter your e-mail"
+          onChangeText={setEmail}
+          text={email}
+          onFocus={() => setFocusField('email')}
+          onBlur={() => setFocusField(null)}
+          isFocused={focusField === 'email'}
+        />
+        <CustomTextField
+          placeholder="Enter password"
+          onChangeText={setPassword}
+          text={password}
+          secureTextEntry
+          onFocus={() => setFocusField('password')}
+          onBlur={() => setFocusField(null)}
+          isFocused={focusField === 'password'}
+        />
         <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
           <Text style={styles.forgotPasswordText}>Forgot Password? </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeTab')}>
-          <CustomSubmitButton text='Log in'/>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomeTab')}
+          disabled={true}>
+          <CustomSubmitButton text="Log in" loading={true} />
         </TouchableOpacity>
       </View>
       <View style={styles.seperatorContainer}>
@@ -44,7 +73,10 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
       </View>
       <View style={styles.signupContainer}>
         <Text style={styles.signupTextBefore}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SignUp');
+          }}>
           <Text style={styles.signupText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -56,11 +88,11 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginTop: '25%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '5%',
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   logo: {
     width: 100,

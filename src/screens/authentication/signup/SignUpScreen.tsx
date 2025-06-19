@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
@@ -11,6 +11,13 @@ import {RootStackParamList} from '../../../types/navigation_types';
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUpScreen = ({navigation}: SignUpScreenProps) => {
+  const [email, setEmail] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const [focusField, setFocusField] = useState<string | null>(null);
+
   return (
     <View style={styles.container}>
       <Image
@@ -25,12 +32,42 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
         </Text>
       </View>
       <View style={styles.formContainer}>
-        <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
+        <CustomTextField
+          placeholder="Enter your Name"
+          onChangeText={setUserName}
+          text={userName}
+          onFocus={() => setFocusField('userName')}
+          onBlur={() => setFocusField(null)}
+          isFocused={focusField === 'userName'}
+        />
+        <CustomTextField
+          placeholder="Enter your e-mail"
+          onChangeText={setEmail}
+          text={email}
+          onFocus={() => setFocusField('email')}
+          onBlur={() => setFocusField(null)}
+          isFocused={focusField === 'email'}
+        />
+        <CustomTextField
+          placeholder="Enter password"
+          onChangeText={setPassword}
+          text={password}
+          onFocus={() => setFocusField('password')}
+          onBlur={() => setFocusField(null)}
+          isFocused={focusField === 'password'}
+        />
+
+        <CustomTextField
+          placeholder="Confirm password"
+          onChangeText={setConfirmPassword}
+          text={confirmPassword}
+          onFocus={() => setFocusField('confirmPassword')}
+          onBlur={() => setFocusField(null)}
+          isFocused={focusField === 'confirmPassword'}
+        />
+
         <TouchableOpacity onPress={() => navigation.navigate('VerifyEmail')}>
-          <CustomSubmitButton text="Sign Up" />
+          <CustomSubmitButton text="Sign Up" loading={true} />
         </TouchableOpacity>
       </View>
       <View style={styles.signupContainer}>
@@ -51,13 +88,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '5%',
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   logo: {
     width: 100,
     height: 100,
   },
-  headingContainer: {},
+  headingContainer: {gap: 10, marginVertical: 15},
   headingText: {
     color: colors.primaryGreen,
     fontSize: 35,
@@ -71,7 +108,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   formContainer: {
-    marginVertical: 20,
+    marginVertical: 10,
     gap: 20,
   },
 
@@ -79,6 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 3,
     alignItems: 'center',
+    marginTop: 10,
   },
   signupText: {
     color: colors.primaryGreen,

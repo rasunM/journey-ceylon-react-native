@@ -39,7 +39,7 @@ const VerifyEmail = ({navigation}: LoginScreenProps) => {
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('SetUpNewPassword')}>
-          <CustomSubmitButton text="Verify Now" />
+          <CustomSubmitButton text="Verify Now" loading={false} />
         </TouchableOpacity>
       </View>
       <View style={styles.signupContainer}>
@@ -56,17 +56,20 @@ export default VerifyEmail;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingTop: '25%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '5%',
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   logo: {
     width: 100,
     height: 100,
   },
-  headingContainer: {},
+  headingContainer: {
+    gap: 10,
+    marginVertical: 15,
+  },
   headingText: {
     color: colors.primaryGreen,
     fontSize: 35,
@@ -78,7 +81,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Fonts.Manrope.Regular,
     textAlign: 'center',
-    marginBottom: 10,
   },
   formContainer: {
     marginVertical: 20,

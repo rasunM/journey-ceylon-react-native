@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: 'center',
+    backgroundColor: colors.white,
   },
   logo: {
     width: 38,

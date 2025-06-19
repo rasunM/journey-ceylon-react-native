@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
@@ -14,6 +14,9 @@ type LoginScreenProps = NativeStackScreenProps<
 >;
 
 const ForgotPasswordScreen = ({navigation}: LoginScreenProps) => {
+  const [email, setEmail] = useState<string>('');
+  const [focusField, setFocusField] = useState<string | null>(null);
+
   return (
     <View style={styles.container}>
       <Image
@@ -31,9 +34,16 @@ const ForgotPasswordScreen = ({navigation}: LoginScreenProps) => {
         </Text>
       </View>
       <View style={styles.formContainer}>
-        <CustomTextField />
+        <CustomTextField
+          placeholder="Enter your e-mail"
+          onChangeText={setEmail}
+          text={email}
+          onFocus={() => setFocusField('email')}
+          onBlur={() => setFocusField(null)}
+          isFocused={focusField === 'email'}
+        />
         <TouchableOpacity onPress={() => navigation.navigate('VerifyEmail')}>
-          <CustomSubmitButton text="Send" />
+          <CustomSubmitButton text="Send" loading={false} />
         </TouchableOpacity>
       </View>
       <View style={styles.seperatorContainer}>
@@ -61,17 +71,20 @@ export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingTop: '25%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '5%',
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   logo: {
     width: 100,
     height: 100,
   },
-  headingContainer: {},
+  headingContainer: {
+    gap: 10,
+    marginVertical: 15,
+  },
   headingText: {
     color: colors.primaryGreen,
     fontSize: 35,
@@ -83,17 +96,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Fonts.Manrope.Regular,
     textAlign: 'center',
-    marginBottom: 10,
   },
   formContainer: {
-    marginVertical: 20,
+    marginVertical: 0,
     gap: 30,
   },
   seperatorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    marginTop: 15,
+    marginTop: 35,
     marginBottom: 25,
   },
   seperatorText: {
