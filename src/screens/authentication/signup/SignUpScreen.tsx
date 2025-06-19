@@ -4,79 +4,120 @@ import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
 import CustomSubmitButton from '../../../components/CustomSubmitButton';
-
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../types/navigation_types';
+import {Formik} from 'formik';
+import {SignUpSchema} from '../../../utils/validation/authValidation';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUpScreen = ({navigation}: SignUpScreenProps) => {
-  const [email, setEmail] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-
   const [focusField, setFocusField] = useState<string | null>(null);
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../../assets/png/logo.png')}
-        style={styles.logo}
-      />
-      <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>Create Your Account</Text>
-        <Text style={styles.subHeadingText}>
-          Start your journey across Sri Lanka with a personalized travel
-          experience.
-        </Text>
-      </View>
-      <View style={styles.formContainer}>
-        <CustomTextField
-          placeholder="Enter your Name"
-          onChangeText={setUserName}
-          text={userName}
-          onFocus={() => setFocusField('userName')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'userName'}
-        />
-        <CustomTextField
-          placeholder="Enter your e-mail"
-          onChangeText={setEmail}
-          text={email}
-          onFocus={() => setFocusField('email')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'email'}
-        />
-        <CustomTextField
-          placeholder="Enter password"
-          onChangeText={setPassword}
-          text={password}
-          onFocus={() => setFocusField('password')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'password'}
-        />
+    <Formik
+      initialValues={{
+        email: '',
+        userName: '',
+        password: '',
+        confirmPassword: '',
+      }}
+      validationSchema={SignUpSchema}
+      onSubmit={values => {
+        console.log(values);
+        navigation.navigate('VerifyEmail');
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
+        <View style={styles.container}>
+          <Image
+            source={require('../../../assets/png/logo.png')}
+            style={styles.logo}
+          />
+          <View style={styles.headingContainer}>
+            <Text style={styles.headingText}>Create Your Account</Text>
+            <Text style={styles.subHeadingText}>
+              Start your journey across Sri Lanka with a personalized travel
+              experience.
+            </Text>
+          </View>
+          <View style={styles.formContainer}>
+            <CustomTextField
+              placeholder="Enter your Name"
+              text={values.userName}
+              onChangeText={handleChange('userName')}
+              onBlur={() => {
+                handleBlur('userName');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('userName')}
+              isFocused={focusField === 'userName'}
+            />
+            {touched.userName && errors.userName && (
+              <Text style={styles.error}>{errors.userName}</Text>
+            )}
 
-        <CustomTextField
-          placeholder="Confirm password"
-          onChangeText={setConfirmPassword}
-          text={confirmPassword}
-          onFocus={() => setFocusField('confirmPassword')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'confirmPassword'}
-        />
+            <CustomTextField
+              placeholder="Enter your e-mail"
+              text={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={() => {
+                handleBlur('email');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('email')}
+              isFocused={focusField === 'email'}
+            />
+            {touched.email && errors.email && (
+              <Text style={styles.error}>{errors.email}</Text>
+            )}
 
-        <TouchableOpacity onPress={() => navigation.navigate('VerifyEmail')}>
-          <CustomSubmitButton text="Sign Up" loading={true} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupTextBefore}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.signupText}>Log in</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+            <CustomTextField
+              placeholder="Enter password"
+              text={values.password}
+              onChangeText={handleChange('password')}
+              secureTextEntry
+              onBlur={() => {
+                handleBlur('password');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('password')}
+              isFocused={focusField === 'password'}
+            />
+            {touched.password && errors.password && (
+              <Text style={styles.error}>{errors.password}</Text>
+            )}
+
+            <CustomTextField
+              placeholder="Confirm password"
+              text={values.confirmPassword}
+              onChangeText={handleChange('confirmPassword')}
+              secureTextEntry
+              onBlur={() => {
+                handleBlur('confirmPassword');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('confirmPassword')}
+              isFocused={focusField === 'confirmPassword'}
+            />
+            {touched.confirmPassword && errors.confirmPassword && (
+              <Text style={styles.error}>{errors.confirmPassword}</Text>
+            )}
+
+            <TouchableOpacity onPress={() => handleSubmit()}>
+              <CustomSubmitButton text="Sign Up" loading={false} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupTextBefore}>
+              Already have an account?{' '}
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.signupText}>Log in</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </Formik>
   );
 };
 
@@ -126,6 +167,13 @@ const styles = StyleSheet.create({
   signupTextBefore: {
     fontSize: 15,
     color: colors.secondaryGrey,
+    fontFamily: Fonts.Manrope.Regular,
+  },
+  error: {
+    color: 'red',
+    marginTop: -15,
+    marginBottom: 10,
+    fontSize: 13,
     fontFamily: Fonts.Manrope.Regular,
   },
 });
