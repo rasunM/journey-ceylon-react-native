@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
@@ -17,13 +9,25 @@ import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
 import {LoginSchema} from '../../../utils/validation/authValidation';
+import functions from '@react-native-firebase/functions';
 
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({navigation}: LoginScreenProps) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [focusField, setFocusField] = useState<string | null>(null);
+
+  const sendEmail = async (email: string) => {
+    try {
+      const response: any = await functions().httpsCallable('sendWelcomeEmail')(
+        {
+          email,
+        },
+      );
+      console.log(response.data.message);
+    } catch (error) {
+      console.error('Email send failed:', error);
+    }
+  };
 
   return (
     <Formik
@@ -34,6 +38,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
       validationSchema={LoginSchema}
       onSubmit={values => {
         console.log(values);
+        sendEmail(values.email);
         navigation.navigate('HomeTab');
       }}>
       {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
