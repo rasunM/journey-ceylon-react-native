@@ -9,6 +9,7 @@ import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
 import {LoginSchema} from '../../../utils/validation/authValidation';
+import {loginUser} from '../../../firebase/authentication/authhandlers';
 import functions from '@react-native-firebase/functions';
 
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -36,10 +37,11 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
         password: '',
       }}
       validationSchema={LoginSchema}
-      onSubmit={values => {
-        console.log(values);
-        sendEmail(values.email);
-        navigation.navigate('HomeTab');
+      onSubmit={async values => {
+        const response = await loginUser(values.email, values.password);
+        if (response) {
+          navigation.navigate('HomeTab');
+        }
       }}>
       {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
         <View style={styles.container}>

@@ -3,10 +3,11 @@ export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
-  VerifyEmail: undefined;
+  VerifyEmail: { from?: 'SignUp' } | undefined; 
   SetUpNewPassword: undefined;
   ResetSuccessfull: undefined;
 };
+
 
 export type BottomTabParamList = {
   Home: undefined;

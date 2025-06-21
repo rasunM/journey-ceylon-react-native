@@ -8,11 +8,16 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../types/navigation_types';
 import {Formik} from 'formik';
 import {SignUpSchema} from '../../../utils/validation/authValidation';
+import {sendOTP} from '../../../firebase/authentication/authhandlers';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../../../redux/slices/authSlice';
+import uuid from 'react-native-uuid';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUpScreen = ({navigation}: SignUpScreenProps) => {
   const [focusField, setFocusField] = useState<string | null>(null);
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -25,7 +30,17 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
       validationSchema={SignUpSchema}
       onSubmit={values => {
         console.log(values);
-        navigation.navigate('VerifyEmail');
+        sendOTP(values.email);
+        const myUniqueId = uuid.v4();
+        dispatch(
+          setAuth({
+            userID: 'user_' + myUniqueId,
+            email: values.email,
+            userName: values.userName,
+            password: values.password,
+          }),
+        );
+        navigation.navigate('VerifyEmail', {from: 'SignUp'});
       }}>
       {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
         <View style={styles.container}>
