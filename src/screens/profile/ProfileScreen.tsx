@@ -9,6 +9,9 @@ import {
 } from '../../types/navigation_types';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {logoutUser} from '../../firebase/authentication/authhandlers';
+import {useDispatch} from 'react-redux';
+import {clearAuth} from '../../redux/slices/authSlice';
 
 type NavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabParamList, 'Profile'>,
@@ -16,6 +19,7 @@ type NavigationProp = CompositeNavigationProp<
 >;
 
 const ProfileScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
@@ -23,7 +27,11 @@ const ProfileScreen = () => {
       <Button
         title="LogOut"
         color={colors.primaryGreen}
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => {
+          logoutUser();
+          dispatch(clearAuth());
+          navigation.navigate('Login');
+        }}
       />
     </View>
   );

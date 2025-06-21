@@ -8,7 +8,12 @@ import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
 import {ResetPasswordSchema} from '../../../utils/validation/authValidation';
-import {updatePassword} from '../../../firebase/authentication/authhandlers';
+import {
+  logoutUser,
+  updatePassword,
+} from '../../../firebase/authentication/authhandlers';
+import {useDispatch} from 'react-redux';
+import {clearAuth} from '../../../redux/slices/authSlice';
 
 type LoginScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -16,6 +21,7 @@ type LoginScreenProps = NativeStackScreenProps<
 >;
 
 const SetupNewPassword = ({navigation}: LoginScreenProps) => {
+  const dispatch = useDispatch();
   const [focusField, setFocusField] = useState<string | null>(null);
   return (
     <Formik
@@ -26,6 +32,8 @@ const SetupNewPassword = ({navigation}: LoginScreenProps) => {
       validationSchema={ResetPasswordSchema}
       onSubmit={async values => {
         await updatePassword(values.password);
+        await logoutUser();
+        dispatch(clearAuth());
         navigation.navigate('ResetSuccessfull');
       }}>
       {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (

@@ -11,24 +11,14 @@ import {Formik} from 'formik';
 import {LoginSchema} from '../../../utils/validation/authValidation';
 import {loginUser} from '../../../firebase/authentication/authhandlers';
 import functions from '@react-native-firebase/functions';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../../../redux/slices/authSlice';
 
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({navigation}: LoginScreenProps) => {
+  const dispatch = useDispatch();
   const [focusField, setFocusField] = useState<string | null>(null);
-
-  const sendEmail = async (email: string) => {
-    try {
-      const response: any = await functions().httpsCallable('sendWelcomeEmail')(
-        {
-          email,
-        },
-      );
-      console.log(response.data.message);
-    } catch (error) {
-      console.error('Email send failed:', error);
-    }
-  };
 
   return (
     <Formik
@@ -40,6 +30,14 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
       onSubmit={async values => {
         const response = await loginUser(values.email, values.password);
         if (response) {
+          dispatch(
+            setAuth({
+              email: values.email,
+              password: null,
+              userID: '',
+              userName: '',
+            }),
+          );
           navigation.navigate('HomeTab');
         }
       }}>
