@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import React, {useState} from 'react';
 import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
@@ -7,6 +14,13 @@ import CustomSubmitButton from '../../../components/CustomSubmitButton';
 import SocialLoginButton from '../../../components/SocialLoginButton';
 import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Formik} from 'formik';
+import {ForgotPasswordSchema} from '../../../utils/validation/authValidation';
+import {sendOTP} from '../../../firebase/authentication/authhandlers';
+import auth from '@react-native-firebase/auth';
+import {getUserFromFirestore} from '../../../firebase/authentication/auth_firestore_handlers';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../../../redux/slices/authSlice';
 
 type LoginScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -14,56 +28,87 @@ type LoginScreenProps = NativeStackScreenProps<
 >;
 
 const ForgotPasswordScreen = ({navigation}: LoginScreenProps) => {
-  const [email, setEmail] = useState<string>('');
+  const dispatch = useDispatch();
   const [focusField, setFocusField] = useState<string | null>(null);
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../../assets/png/logo.png')}
-        style={styles.logo}
-      />
-      <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>Forgot password?</Text>
-        <Text style={styles.subHeadingText}>
-          No worries! Let’s help you reset it.
-        </Text>
-        <Text style={styles.subHeadingText}>
-          Enter the email address associated with your account. We’ll send you a
-          OTP code to reset your password.
-        </Text>
-      </View>
-      <View style={styles.formContainer}>
-        <CustomTextField
-          placeholder="Enter your e-mail"
-          onChangeText={setEmail}
-          text={email}
-          onFocus={() => setFocusField('email')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'email'}
-        />
-        <TouchableOpacity onPress={() => navigation.navigate('VerifyEmail')}>
-          <CustomSubmitButton text="Send" loading={false} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.seperatorContainer}>
-        <View style={styles.centeredLine} />
-        <Text style={styles.seperatorText}>Or</Text>
-        <View style={styles.centeredLine} />
-      </View>
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupTextBefore}>Back to </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.signupText}>Log in</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupTextBefore}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.signupText}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <Formik
+      initialValues={{
+        email: '',
+      }}
+      validationSchema={ForgotPasswordSchema}
+      onSubmit={async values => {
+        const userDetails = await getUserFromFirestore(values.email);
+        if (!userDetails) {
+          Alert.alert('Please Sign In to reset your password');
+        } else {
+          sendOTP(values.email);
+          dispatch(
+            setAuth({
+              email: values.email,
+              password: null,
+              userID: '',
+              userName: '',
+            }),
+          );
+          navigation.navigate('VerifyEmail');
+        }
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
+        <View style={styles.container}>
+          <Image
+            source={require('../../../assets/png/logo.png')}
+            style={styles.logo}
+          />
+          <View style={styles.headingContainer}>
+            <Text style={styles.headingText}>Forgot password?</Text>
+            <Text style={styles.subHeadingText}>
+              No worries! Let’s help you reset it.
+            </Text>
+            <Text style={styles.subHeadingText}>
+              Enter the email address associated with your account. We’ll send
+              you a OTP code to reset your password.
+            </Text>
+          </View>
+          <View style={styles.formContainer}>
+            <CustomTextField
+              placeholder="Enter your e-mail"
+              text={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={() => {
+                handleBlur('email');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('email')}
+              isFocused={focusField === 'email'}
+            />
+            {touched.email && errors.email && (
+              <Text style={styles.error}>{errors.email}</Text>
+            )}
+            <TouchableOpacity onPress={() => handleSubmit()}>
+              <CustomSubmitButton text="Send" loading={false} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.seperatorContainer}>
+            <View style={styles.centeredLine} />
+            <Text style={styles.seperatorText}>Or</Text>
+            <View style={styles.centeredLine} />
+          </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupTextBefore}>Back to </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.signupText}>Log in</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupTextBefore}>Don't have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.signupText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </Formik>
   );
 };
 
@@ -132,6 +177,13 @@ const styles = StyleSheet.create({
   signupTextBefore: {
     fontSize: 15,
     color: colors.secondaryGrey,
+    fontFamily: Fonts.Manrope.Regular,
+  },
+  error: {
+    color: 'red',
+    marginTop: -15,
+    fontSize: 13,
+    marginBottom: 5,
     fontFamily: Fonts.Manrope.Regular,
   },
 });

@@ -1,14 +1,24 @@
-import React from 'react';
-import {View, TextInput, StyleSheet, TextInputProps} from 'react-native';
+import React, {useRef, useEffect} from 'react';
+import {TextInput, StyleSheet} from 'react-native';
 import colors from '../constants/colors';
 
-const DigitInputBox = () => {
+type Props = {
+  value: string;
+  onChangeText: (text: string) => void;
+  inputRef: React.RefObject<TextInput | null>;
+  onKeyPress?: () => void;
+};
+
+const DigitInputBox: React.FC<Props> = ({value, onChangeText, inputRef}) => {
   return (
     <TextInput
+      ref={inputRef}
       maxLength={1}
       keyboardType="number-pad"
       style={styles.container}
       textAlign="center"
+      value={value}
+      onChangeText={onChangeText}
     />
   );
 };

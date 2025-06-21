@@ -4,9 +4,11 @@ import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
 import CustomSubmitButton from '../../../components/CustomSubmitButton';
-import SocialLoginButton from '../../../components/SocialLoginButton';
 import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Formik} from 'formik';
+import {ResetPasswordSchema} from '../../../utils/validation/authValidation';
+import {updatePassword} from '../../../firebase/authentication/authhandlers';
 
 type LoginScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -14,45 +16,69 @@ type LoginScreenProps = NativeStackScreenProps<
 >;
 
 const SetupNewPassword = ({navigation}: LoginScreenProps) => {
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [focusField, setFocusField] = useState<string | null>(null);
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../../assets/png/logo.png')}
-        style={styles.logo}
-      />
-      <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>Set a New Password</Text>
-        <Text style={styles.subHeadingText}>
-          Create a strong password to secure your account.
-        </Text>
-      </View>
-      <View style={styles.formContainer}>
-        <CustomTextField
-          placeholder="Enter password"
-          onChangeText={setPassword}
-          text={password}
-          onFocus={() => setFocusField('password')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'password'}
-        />
+    <Formik
+      initialValues={{
+        password: '',
+        confirmPassword: '',
+      }}
+      validationSchema={ResetPasswordSchema}
+      onSubmit={async values => {
+        await updatePassword(values.password);
+        navigation.navigate('ResetSuccessfull');
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
+        <View style={styles.container}>
+          <Image
+            source={require('../../../assets/png/logo.png')}
+            style={styles.logo}
+          />
+          <View style={styles.headingContainer}>
+            <Text style={styles.headingText}>Set a New Password</Text>
+            <Text style={styles.subHeadingText}>
+              Create a strong password to secure your account.
+            </Text>
+          </View>
+          <View style={styles.formContainer}>
+            <CustomTextField
+              placeholder="Enter password"
+              text={values.password}
+              onChangeText={handleChange('password')}
+              secureTextEntry
+              onBlur={() => {
+                handleBlur('password');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('password')}
+              isFocused={focusField === 'password'}
+            />
+            {touched.password && errors.password && (
+              <Text style={styles.error}>{errors.password}</Text>
+            )}
 
-        <CustomTextField
-          placeholder="Confirm password"
-          onChangeText={setConfirmPassword}
-          text={confirmPassword}
-          onFocus={() => setFocusField('confirmPassword')}
-          onBlur={() => setFocusField(null)}
-          isFocused={focusField === 'confirmPassword'}
-        />
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ResetSuccessfull')}>
-          <CustomSubmitButton text="Reset Password" loading={false} />
-        </TouchableOpacity>
-      </View>
-    </View>
+            <CustomTextField
+              placeholder="Confirm password"
+              text={values.confirmPassword}
+              onChangeText={handleChange('confirmPassword')}
+              secureTextEntry
+              onBlur={() => {
+                handleBlur('confirmPassword');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('confirmPassword')}
+              isFocused={focusField === 'confirmPassword'}
+            />
+            {touched.confirmPassword && errors.confirmPassword && (
+              <Text style={styles.error}>{errors.confirmPassword}</Text>
+            )}
+            <TouchableOpacity onPress={() => handleSubmit()}>
+              <CustomSubmitButton text="Reset Password" loading={false} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </Formik>
   );
 };
 
@@ -89,5 +115,12 @@ const styles = StyleSheet.create({
   formContainer: {
     marginVertical: 20,
     gap: 25,
+  },
+  error: {
+    color: 'red',
+    marginTop: -15,
+    marginBottom: 10,
+    fontSize: 13,
+    fontFamily: Fonts.Manrope.Regular,
   },
 });
