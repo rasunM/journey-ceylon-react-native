@@ -11,13 +11,14 @@ import {Fonts} from '../../../constants/fonts';
 import colors from '../../../constants/colors';
 import CustomTextField from '../../../components/CustomTextField';
 import CustomSubmitButton from '../../../components/CustomSubmitButton';
-import SocialLoginButton from '../../../components/SocialLoginButton';
 import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
-import {ForgotPasswordSchema} from '../../../utils/validation/authValidation';
-import {sendOTP} from '../../../firebase/authentication/authhandlers';
-import auth from '@react-native-firebase/auth';
+import {LoginSchema} from '../../../utils/validation/authValidation';
+import {
+  loginUser,
+  sendOTP,
+} from '../../../firebase/authentication/authhandlers';
 import {getUserFromFirestore} from '../../../firebase/authentication/auth_firestore_handlers';
 import {useDispatch} from 'react-redux';
 import {setAuth} from '../../../redux/slices/authSlice';
@@ -35,14 +36,16 @@ const ForgotPasswordScreen = ({navigation}: LoginScreenProps) => {
     <Formik
       initialValues={{
         email: '',
+        password: '',
       }}
-      validationSchema={ForgotPasswordSchema}
+      validationSchema={LoginSchema}
       onSubmit={async values => {
         const userDetails = await getUserFromFirestore(values.email);
         if (!userDetails) {
           Alert.alert('Please Sign In to reset your password');
         } else {
-          sendOTP(values.email);
+          await loginUser(values.email, values.password);
+          await sendOTP(values.email);
           dispatch(
             setAuth({
               email: values.email,
@@ -84,6 +87,21 @@ const ForgotPasswordScreen = ({navigation}: LoginScreenProps) => {
             />
             {touched.email && errors.email && (
               <Text style={styles.error}>{errors.email}</Text>
+            )}
+            <CustomTextField
+              placeholder="Enter password"
+              text={values.password}
+              onChangeText={handleChange('password')}
+              secureTextEntry
+              onBlur={() => {
+                handleBlur('password');
+                setFocusField(null);
+              }}
+              onFocus={() => setFocusField('password')}
+              isFocused={focusField === 'password'}
+            />
+            {touched.password && errors.password && (
+              <Text style={styles.error}>{errors.password}</Text>
             )}
             <TouchableOpacity onPress={() => handleSubmit()}>
               <CustomSubmitButton text="Send" loading={false} />
