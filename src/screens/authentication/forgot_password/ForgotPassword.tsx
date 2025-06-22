@@ -52,6 +52,7 @@ const ForgotPasswordScreen = ({navigation}: LoginScreenProps) => {
               password: null,
               userID: '',
               userName: '',
+              signInMethod: 'EmailSignIn',
             }),
           );
           navigation.navigate('VerifyEmail');

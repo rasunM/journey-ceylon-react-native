@@ -9,9 +9,13 @@ import {
 } from '../../types/navigation_types';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {logoutUser} from '../../firebase/authentication/authhandlers';
-import {useDispatch} from 'react-redux';
+import {
+  googleSignOut,
+  logoutUser,
+} from '../../firebase/authentication/authhandlers';
+import {useDispatch, useSelector} from 'react-redux';
 import {clearAuth} from '../../redux/slices/authSlice';
+import {RootState} from '../../redux/store';
 
 type NavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabParamList, 'Profile'>,
@@ -20,6 +24,7 @@ type NavigationProp = CompositeNavigationProp<
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
   const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
@@ -28,7 +33,11 @@ const ProfileScreen = () => {
         title="LogOut"
         color={colors.primaryGreen}
         onPress={() => {
-          logoutUser();
+          if (user?.signInMethod === 'GoogleSignIn') {
+            googleSignOut();
+          } else {
+            logoutUser();
+          }
           dispatch(clearAuth());
           navigation.navigate('Login');
         }}

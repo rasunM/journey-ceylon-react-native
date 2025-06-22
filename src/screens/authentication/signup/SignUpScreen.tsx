@@ -38,6 +38,7 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
             email: values.email,
             userName: values.userName,
             password: values.password,
+            signInMethod: 'EmailSignIn',
           }),
         );
         navigation.navigate('VerifyEmail', {from: 'SignUp'});

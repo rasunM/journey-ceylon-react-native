@@ -88,25 +88,25 @@ export const googleSignIn = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
+
     if (response) {
-      console.log({userInfo: response.data});
+      return { success: true, userInfo: response }; // return actual response
     } else {
-      // sign in was cancelled by user
+      // Sign-in was cancelled by user
+      return { success: false, message: 'Sign-in cancelled by user.' };
     }
   } catch (error: any) {
     if (error) {
       switch (error.code) {
         case statusCodes.IN_PROGRESS:
-          // operation (eg. sign in) already in progress
-          break;
+          return { success: false, message: 'Sign-in already in progress.' };
         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-          // Android only, play services not available or outdated
-          break;
+          return { success: false, message: 'Google Play Services not available.' };
         default:
-        // some other error happened
+          return { success: false, message: 'An unknown error occurred.', error };
       }
     } else {
-      // an error that's not related to google sign in occurred
+      return { success: false, message: 'A non-Google error occurred.', error };
     }
   }
 };
