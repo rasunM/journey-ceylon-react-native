@@ -28,7 +28,6 @@ export default SocialLoginButton;
 
 const styles = StyleSheet.create({
   container: {
-    width: '47%',
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,

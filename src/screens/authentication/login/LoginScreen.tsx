@@ -9,10 +9,26 @@ import {RootStackParamList} from '../../../types/navigation_types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
 import {LoginSchema} from '../../../utils/validation/authValidation';
-import {loginUser} from '../../../firebase/authentication/authhandlers';
+import {
+  googleSignIn,
+  loginUser,
+} from '../../../firebase/authentication/authhandlers';
 import functions from '@react-native-firebase/functions';
 import {useDispatch} from 'react-redux';
 import {setAuth} from '../../../redux/slices/authSlice';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import Config from 'react-native-config';
+
+GoogleSignin.configure({
+  webClientId: Config.WEB_CLIENT_ID,
+  scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+  forceCodeForRefreshToken: false,
+  iosClientId: Config.IOS_CLIENT_ID,
+});
 
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -97,8 +113,12 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
             <View style={styles.centeredLine} />
           </View>
           <View style={styles.socialLoginContainer}>
-            <SocialLoginButton logo="facebook" text="Facebook" />
-            <SocialLoginButton logo="google" text="Google" />
+            <TouchableOpacity>
+              <SocialLoginButton logo="facebook" text="Facebook" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => googleSignIn()}>
+              <SocialLoginButton logo="google" text="Google" />
+            </TouchableOpacity>
           </View>
           <View style={styles.signupContainer}>
             <Text style={styles.signupTextBefore}>Don't have an account? </Text>
