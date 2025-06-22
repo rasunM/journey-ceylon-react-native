@@ -5,6 +5,7 @@ type UserType = {
   email: string | null;
   userName: string | null;
   password: string | null;
+  signInMethod: 'GoogleSignIn' | 'EmailSignIn' | null;
 } | null;
 
 const initialState: {user: UserType} = {

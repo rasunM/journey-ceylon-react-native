@@ -22,6 +22,8 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import Config from 'react-native-config';
+import {addUserToFirestore} from '../../../firebase/authentication/auth_firestore_handlers';
+import uuid from 'react-native-uuid';
 
 GoogleSignin.configure({
   webClientId: Config.WEB_CLIENT_ID,
@@ -52,6 +54,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
               password: null,
               userID: '',
               userName: '',
+              signInMethod: 'EmailSignIn',
             }),
           );
           navigation.navigate('HomeTab');
@@ -116,7 +119,30 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
             <TouchableOpacity>
               <SocialLoginButton logo="facebook" text="Facebook" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => googleSignIn()}>
+            <TouchableOpacity
+              onPress={async () => {
+                const response = await googleSignIn();
+                if (response.success) {
+                  const userInfo = response.userInfo?.data?.user;
+                  const myUniqueId = uuid.v4();
+                  await addUserToFirestore(
+                    'user_' + myUniqueId,
+                    userInfo?.email!,
+                    userInfo?.givenName!,
+                  );
+                  dispatch(
+                    setAuth({
+                      email: userInfo?.email!,
+                      password: null,
+                      userID: '',
+                      userName: '',
+                      signInMethod: 'GoogleSignIn',
+                    }),
+                  );
+                  navigation.navigate('HomeTab');
+                } else {
+                }
+              }}>
               <SocialLoginButton logo="google" text="Google" />
             </TouchableOpacity>
           </View>
