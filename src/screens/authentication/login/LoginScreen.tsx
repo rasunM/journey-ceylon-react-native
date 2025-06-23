@@ -57,7 +57,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
               signInMethod: 'EmailSignIn',
             }),
           );
-          navigation.navigate('HomeTab');
+          navigation.navigate('Onboarding');
         }
       }}>
       {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => (
