@@ -10,6 +10,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome</Text>
       <Text style={styles.name}>{user?.email}</Text>
+      <View></View>
     </View>
   );
 };

@@ -10,6 +10,7 @@ import ForgotPasswordScreen from '../screens/authentication/forgot_password/Forg
 import SetupNewPassword from '../screens/authentication/set_new_password/SetNewPassword';
 import VerifyEmail from '../screens/authentication/verify_email/VerifyEmail';
 import ResetSuccessfull from '../screens/authentication/reset_successful/ResetSuccessfulScreen';
+import OnBoarding from '../screens/onboarding/OnBoarding';
 
 const RootNavigator = () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -48,6 +49,11 @@ const RootNavigator = () => {
       <Stack.Screen
         name="ResetSuccessfull"
         component={ResetSuccessfull}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Onboarding"
+        component={OnBoarding}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
