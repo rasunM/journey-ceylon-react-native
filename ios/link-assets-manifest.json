@@ -30,10 +30,6 @@
       "sha1": "f7a023cd6c102b2ffa8bf729579552445970d62d"
     },
     {
-      "path": "src/assets/fonts/Poppins/OFL.txt",
-      "sha1": "9f27955a401cc9ea5ba3503027a4ea502c87e70c"
-    },
-    {
       "path": "src/assets/fonts/Poppins/Poppins-Black.ttf",
       "sha1": "645e04c53c6b5b35bce654a811ebce16af8aa721"
     },
@@ -104,6 +100,10 @@
     {
       "path": "src/assets/fonts/Poppins/Poppins-ThinItalic.ttf",
       "sha1": "fb8fccca21550e71135f92bbaf8a2e8a12c90465"
+    },
+    {
+      "path": "src/assets/fonts/Lobster/Lobster-Regular.ttf",
+      "sha1": "120c751cd7a77174037c2409ab883ef7efc5edbb"
     }
   ]
 }
