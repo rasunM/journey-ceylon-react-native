@@ -15,4 +15,7 @@ export const Fonts = {
     Light: 'Poppins-Light',
     ExtraLight: 'Poppins-ExtraLight',
   },
+  Lobster: {
+    Regular: 'Lobster-Regular',
+  },
 };

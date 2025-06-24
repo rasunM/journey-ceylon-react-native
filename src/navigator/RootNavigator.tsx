@@ -15,7 +15,7 @@ import OnBoarding from '../screens/onboarding/OnBoarding';
 const RootNavigator = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="HomeTab">
       <Stack.Screen
         name="HomeTab"
         component={BottomTabNavigator}
