@@ -7,6 +7,7 @@ export type RootStackParamList = {
   SetUpNewPassword: undefined;
   ResetSuccessfull: undefined;
   Onboarding: undefined;
+  DestinationDetails: undefined;
 };
 
 export type BottomTabParamList = {

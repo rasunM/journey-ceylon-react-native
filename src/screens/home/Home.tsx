@@ -18,9 +18,25 @@ import IconWrapper from '../../components/IconWrapper';
 import CustomSearchBar from '../../components/CustomSearchBar';
 import {styles} from './styles';
 import {categories, places} from '../../firebase/home/auth_firestore_handlers';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import {
+  BottomTabParamList,
+  RootStackParamList,
+} from '../../types/navigation_types';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+
+type NavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<BottomTabParamList, 'Home'>,
+  NativeStackNavigationProp<RootStackParamList>
+>;
 
 const HomeScreen = () => {
   const user = useSelector((state: RootState) => state.auth.user);
+  const navigation = useNavigation<NavigationProp>();
   const [selectedTab, setSelectedTab] = useState<
     'All' | 'Popular' | 'Recommended'
   >('All');
@@ -104,14 +120,18 @@ const HomeScreen = () => {
           </>
         }
         renderItem={({item}) => (
-          <View style={styles.placeCard}>
+          <TouchableOpacity
+            style={styles.placeCard}
+            onPress={() => {
+              navigation.navigate('DestinationDetails');
+            }}>
             <Image source={item.image} style={styles.placeImage} />
             <View style={styles.heartIcon}>
               <FavouriteIcon width={20} height={20} fill={colors.black} />
             </View>
             <Text style={styles.placeTitle}>{item.title}</Text>
             <Text style={styles.placeLocation}>{item.location}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </SafeAreaView>
