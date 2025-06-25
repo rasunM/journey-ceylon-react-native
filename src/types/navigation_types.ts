@@ -8,6 +8,7 @@ export type RootStackParamList = {
   ResetSuccessfull: undefined;
   Onboarding: undefined;
   DestinationDetails: undefined;
+  CategorySingle: undefined;
 };
 
 export type BottomTabParamList = {

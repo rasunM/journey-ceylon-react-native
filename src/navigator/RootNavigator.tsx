@@ -12,6 +12,7 @@ import VerifyEmail from '../screens/authentication/verify_email/VerifyEmail';
 import ResetSuccessfull from '../screens/authentication/reset_successful/ResetSuccessfulScreen';
 import OnBoarding from '../screens/onboarding/OnBoarding';
 import DestinationDetails from '../screens/home/destination_details/Destination_Details';
+import CategorySingle from '../screens/home/category/CategorySingle';
 
 const RootNavigator = () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -60,6 +61,11 @@ const RootNavigator = () => {
       <Stack.Screen
         name="DestinationDetails"
         component={DestinationDetails}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CategorySingle"
+        component={CategorySingle}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
