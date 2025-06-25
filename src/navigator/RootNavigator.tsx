@@ -11,6 +11,7 @@ import SetupNewPassword from '../screens/authentication/set_new_password/SetNewP
 import VerifyEmail from '../screens/authentication/verify_email/VerifyEmail';
 import ResetSuccessfull from '../screens/authentication/reset_successful/ResetSuccessfulScreen';
 import OnBoarding from '../screens/onboarding/OnBoarding';
+import DestinationDetails from '../screens/home/destination_details/Destination_Details';
 
 const RootNavigator = () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -54,6 +55,11 @@ const RootNavigator = () => {
       <Stack.Screen
         name="Onboarding"
         component={OnBoarding}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DestinationDetails"
+        component={DestinationDetails}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
