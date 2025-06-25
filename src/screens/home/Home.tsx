@@ -90,10 +90,13 @@ const HomeScreen = () => {
               showsHorizontalScrollIndicator={false}
               style={styles.categoriesScroll}>
               {categories.map((item, index) => (
-                <View key={index} style={styles.categoryItem}>
+                <TouchableOpacity
+                  key={index}
+                  style={styles.categoryItem}
+                  onPress={() => navigation.navigate('CategorySingle')}>
                   <Image source={item.image} style={styles.categoryImage} />
                   <Text style={styles.categoryText}>{item.title}</Text>
-                </View>
+                </TouchableOpacity>
               ))}
             </ScrollView>
 
