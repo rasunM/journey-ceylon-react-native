@@ -10,6 +10,7 @@ export type RootStackParamList = {
   DestinationDetails: undefined;
   CategorySingle: undefined;
   Notification: undefined;
+  ChatScreen: undefined;
 };
 
 export type BottomTabParamList = {

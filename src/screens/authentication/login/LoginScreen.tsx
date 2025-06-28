@@ -38,6 +38,8 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
   const dispatch = useDispatch();
   const [focusField, setFocusField] = useState<string | null>(null);
 
+  console.log('Config Check', Config);
+
   return (
     <Formik
       initialValues={{
