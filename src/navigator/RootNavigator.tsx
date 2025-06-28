@@ -14,6 +14,7 @@ import OnBoarding from '../screens/onboarding/OnBoarding';
 import DestinationDetails from '../screens/home/destination_details/Destination_Details';
 import CategorySingle from '../screens/home/category/CategorySingle';
 import Notification from '../screens/notification/Notification';
+import ChatScreen from '../screens/ChatScreen';
 
 const RootNavigator = () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -72,6 +73,11 @@ const RootNavigator = () => {
       <Stack.Screen
         name="Notification"
         component={Notification}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

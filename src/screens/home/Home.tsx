@@ -14,20 +14,17 @@ import colors from '../../constants/colors';
 import Logo from '../../components/Logo';
 import NotificationIcon from '../../assets/svg/notifications.svg';
 import FavouriteIcon from '../../assets/svg/favourite.svg';
-import IconWrapper from '../../components/IconWrapper';
 import CustomSearchBar from '../../components/CustomSearchBar';
 import {styles} from './styles';
 import {categories, places} from '../../firebase/home/auth_firestore_handlers';
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   BottomTabParamList,
   RootStackParamList,
 } from '../../types/navigation_types';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import FloatingActionBar from '../../components/FloatingActionBar';
 
 type NavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabParamList, 'Home'>,
@@ -48,7 +45,18 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ChatScreen')}
+        style={{
+          position: 'absolute',
+          zIndex: 999999999,
+          bottom: 20,
+          right: 20,
+          flexDirection: 'row',
+          gap: 10,
+        }}>
+        <FloatingActionBar />
+      </TouchableOpacity>
       <View style={styles.header}>
         <Logo />
         <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
