@@ -9,6 +9,7 @@ export type RootStackParamList = {
   Onboarding: undefined;
   DestinationDetails: undefined;
   CategorySingle: undefined;
+  Notification: undefined;
 };
 
 export type BottomTabParamList = {

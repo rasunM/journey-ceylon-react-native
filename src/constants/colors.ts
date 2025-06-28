@@ -6,6 +6,7 @@ const colors = {
   textInputBarColor: '#AAAAAA',
   textInputBarFontColor: '#919090',
   secondaryGrey: '#717171',
+  categroryCardColor: '#D9D9D9',
   textColor: '#232323',
   black: '#000000',
   white: '#FFFFFF',

@@ -13,11 +13,12 @@ import ResetSuccessfull from '../screens/authentication/reset_successful/ResetSu
 import OnBoarding from '../screens/onboarding/OnBoarding';
 import DestinationDetails from '../screens/home/destination_details/Destination_Details';
 import CategorySingle from '../screens/home/category/CategorySingle';
+import Notification from '../screens/notification/Notification';
 
 const RootNavigator = () => {
   const Stack = createStackNavigator<RootStackParamList>();
   return (
-    <Stack.Navigator initialRouteName="HomeTab">
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="HomeTab"
         component={BottomTabNavigator}
@@ -66,6 +67,11 @@ const RootNavigator = () => {
       <Stack.Screen
         name="CategorySingle"
         component={CategorySingle}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

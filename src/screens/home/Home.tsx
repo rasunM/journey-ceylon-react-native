@@ -51,20 +51,9 @@ const HomeScreen = () => {
       {/* Header */}
       <View style={styles.header}>
         <Logo />
-        <IconWrapper
-          Icon={NotificationIcon}
-          width={25}
-          height={25}
-          fill={colors.black}
-          style={{
-            backgroundColor: colors.bottomTabBorderColor,
-            borderRadius: 100,
-            width: 40,
-            height: 40,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+          <NotificationIcon width={25} height={25} fill={colors.black} />
+        </TouchableOpacity>
       </View>
 
       {/* Entire content as FlatList */}

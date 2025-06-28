@@ -99,7 +99,7 @@ exports.sendWelcomeEmail = functions.https.onCall(async (request) => {
     const mailOptions = {
         from: GMAIL_USER,
         to: email,
-        subject: 'Welcome to Journey Ceylon!',
+        subject: 'Welcome to Travel Ceylon!',
         html: (0, template_1.generateOtpEmailTemplate)(otp),
     };
     try {
