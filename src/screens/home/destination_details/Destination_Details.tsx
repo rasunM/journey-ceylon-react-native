@@ -9,6 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Linking,
+  Alert,
 } from 'react-native';
 import colors from '../../../constants/colors';
 import BackIcon from '../../../assets/svg/back.svg';
@@ -20,6 +22,14 @@ const imageSource = require('../../../assets/png/destination.png');
 
 const DestinationDetails = () => {
   const pictureData = [1, 2, 3, 4]; // Using same image for all
+
+  const openMap = () => {
+    const url = 'https://www.google.com/maps/search/?api=1&query=Colombo+Sri+Lanka';
+    Linking.openURL(url).catch(err =>
+      Alert.alert('Error', 'Failed to open map: ' + err.message)
+    );
+  };
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -78,7 +88,7 @@ const DestinationDetails = () => {
         {/* Location */}
         <View style={styles.locationRow}>
           <Text style={styles.locationLabel}>Location</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openMap}>
             <Text style={styles.openMap}>open on map ➜</Text>
           </TouchableOpacity>
         </View>
